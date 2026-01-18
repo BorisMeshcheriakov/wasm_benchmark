@@ -93,21 +93,11 @@ function dist2PointToSegment(
     return dx * dx + dy * dy;
 }
 
-function makePolyline(n: number): Float64Array {
-    const pts = new Float64Array(n * 2);
-    for (let i = 0; i < n; i++) {
-        const t = i / n;
-        pts[2 * i] = t * 1000;
-        pts[2 * i + 1] = Math.sin(t * 20) * 50;
-    }
-    return pts;
-}
-
 /**
  * Запуск бенчмарка
  */
 async function runBenchmark(iterations: number, epsilon: number) {
-    const response = await fetch('./polyline_10000.json');
+    const response = await fetch('./polyline_100000.json');
     const arr = await response.json();
     const polyline = new Float64Array(arr);
     const points = polyline.length / 2;
