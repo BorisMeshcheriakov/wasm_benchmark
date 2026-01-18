@@ -3,7 +3,7 @@ import path from "path";
 
 export default defineConfig({
   build: {
-    outDir: "dist-js",
+    outDir: "dist",
   },
   publicDir: "./public",
   server: {
