@@ -12,6 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "~5.8.3",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "vite-plugin-static-copy": "^3.1.4"
   }
 }
