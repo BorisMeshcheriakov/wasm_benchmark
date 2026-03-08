@@ -9,14 +9,14 @@ export default defineConfig(() => {
     },
     publicDir: "./public",
     plugins: [
-      viteStaticCopy({
-        targets: [
-          {
-            src: path.resolve(__dirname, "../mock-generator/results") + "/*",
-            dest: ".",
-          },
-        ],
-      }),
+      // viteStaticCopy({
+      //   targets: [
+      //     {
+      //       src: path.resolve(__dirname, "../mock-generator/results") + "/*",
+      //       dest: ".",
+      //     },
+      //   ],
+      // }),
     ],
     server: {
       proxy: {

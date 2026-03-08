@@ -1,8 +1,9 @@
+import { calculateResults } from "../../../shared/utils";
 import "../../shared/styles/main.css";
 
 import { createInput, renderTable } from "../../shared/utils";
 
-async function parseLargeCsv(file: File, onRow: (row: string[]) => void) {
+async function parseLargeCsv(file: File, onRow?: (row: string[]) => void) {
   const decoder = new TextDecoder();
   const reader = file.stream().getReader();
 
@@ -17,13 +18,13 @@ async function parseLargeCsv(file: File, onRow: (row: string[]) => void) {
 
     for (const line of lines) {
       if (line.trim().length > 0) {
-        onRow(line.split(","));
+        onRow && onRow(line.split(","));
       }
     }
   }
 
   if (buffer.length > 0) {
-    onRow(buffer.split(","));
+    onRow && onRow(buffer.split(","));
   }
 }
 
@@ -41,3 +42,32 @@ input.addEventListener("change", async () => {
   console.log("Парсинг завершен за", t1 - t0, "мс");
   renderTable(result);
 });
+
+const runBenchmark = async (iterations: number) => {
+  const fileName = "contacts_10000.csv";
+  const response = await fetch(`./${fileName}`);
+  const blob = await response.blob();
+  const file = new File([blob], fileName, {
+    type: blob.type,
+    lastModified: Date.now(),
+  });
+
+  // Прогрев (warm-up)
+  console.log("Starting warmup...");
+  for (let i = 0; i < 3; i++) {
+    await parseLargeCsv(file);
+  }
+
+  const times: number[] = [];
+
+  for (let i = 0; i < iterations; i++) {
+    const t0 = performance.now();
+    await parseLargeCsv(file);
+    const t1 = performance.now();
+    times.push(t1 - t0);
+  }
+
+  calculateResults("JS Benchmark CSV Parser", times, iterations);
+};
+
+runBenchmark(10);

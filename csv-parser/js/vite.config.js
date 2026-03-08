@@ -29,6 +29,7 @@ export default defineConfig(() => {
       fs: {
         allow: [
           path.resolve(__dirname),
+          path.resolve(__dirname, "../../shared/utils"),
           path.resolve(__dirname, "../mock-generator"),
           path.resolve(__dirname, "../shared"),
         ],
